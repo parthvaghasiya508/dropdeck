@@ -1,0 +1,28 @@
+$duration: 450ms;
+$tileWidth: 180px;
+$tileHeight: ($tileWidth / (16/9));
+$iconSize: 50px;
+$growFactor: 1.2; // 20% larger than the original size
+
+$moveLeft: -($tileWidth * ($growFactor - 1) / 2);
+$moveRight: $tileWidth * ($growFactor - 1);
+
+.portal {
+  pointer-events: all;
+  left: 20px;
+  position: absolute;
+  z-index: 1;
+  scroll-snap-type: x mandatory;
+
+  overflow: scroll;
+  width: 100%;
+  max-width: 520px;
+
+  // Portal styling
+  border-radius: 8px;
+  padding: 18px 18px 6px 28px;
+  opacity: 0.98;
+  border: 2px solid #111;
+  background: linear-gradient(45deg, #202020 0%, #323234 100%);
+
+}

@@ -1,0 +1,42 @@
+{
+  "name": "dropdeck",
+  "version": "1.0.0",
+  "repository": "https://github.com/dropdeck-com/dropdeck.git",
+  "private": true,
+  "engines": {
+    "node": "^13.14.0",
+    "yarn": "^1.22.4"
+  },
+  "workspaces": [
+    "packages/schema",
+    "services/api"
+  ],
+  "scripts": {
+    "start": "docker-compose up",
+    "start:all": "docker-compose -f docker-compose-all.yml up",
+    "start:build": "docker-compose up --build",
+    "stop": "docker-compose down",
+    "lint": "eslint -c .eslintrc.js --quiet services/app/src/ services/api/src/",
+    "lint:fix": "eslint -c .eslintrc.js --quiet --fix services/app/src/ services/api/src/"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/runtime": "^7.12.1"
+  },
+  "devDependencies": {
+    "@babel/parser": "7.7.5",
+    "babel-eslint": "10.0.2",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-flowtype": "^4.5.2",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^1.7.0"
+  }
+}

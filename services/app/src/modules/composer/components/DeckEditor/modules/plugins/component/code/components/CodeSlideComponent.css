@@ -1,0 +1,7 @@
+.codeBlock span {
+  display: block;
+}
+
+.codeBlock span span {
+  display: inline;
+}

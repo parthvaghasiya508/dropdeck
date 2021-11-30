@@ -1,0 +1,168 @@
+# Dropdeck deployment configuration
+
+ingress:
+  ipName: dev-cluster-ip
+  host: dev.dropdeck.com
+  metadata:
+    annotations:
+      kubernetes.io/ingress.global-static-ip-name: dev-static
+      # networking.gke.io/managed-certificates: dropdeck-cert
+
+nameOverride: ""
+fullnameOverride: ""
+
+dropdeck-export-api:
+  image:
+    tag: dev # default image tag
+
+  log:
+    level: debug
+
+  cors:
+    allowedOrigins: '*,http://dropdeck-export-app'
+
+  frontend:
+    host: https://dev.dropdeck.com
+    export:
+      host: https://dev.dropdeck.com # https://dev-export.dropdeck.com #http://dropdeck-export-app
+      path: export/play
+    player:
+      host: https://dev.dropdeck.com/play
+
+  backend:
+    host: https://dev.dropdeck.com/api
+
+  storage:
+    cloud:
+      google:
+        enabled: true
+        decks:
+          bucketName: dropdeck-files_dev
+        branding:
+          bucketName: dropdeck-branding_dev
+    disk:
+      path: /data
+
+  auth:
+    allowed:
+      users: ^bjarki.holm@gmail.com$,^mr.olafsson@gmail.com$,^theobonhamcarter@gmail.com$
+      organizations: ^dropdeck.com$,^harvey-medical.com$
+    google:
+      clientId: 475661889060-g34p5k78pi5ehg45vo9e3ldpnb70e0ki.apps.googleusercontent.com
+      secret: DWfiIv73ayXB_Wyb9QcoKBlY
+    o365:
+      clientId: b3ab1206-c54c-4194-92a4-222c89b2074c
+      secret: 5o6ifAVNS-~TJW~g8_aFoHq7c9.d.BD5-_
+
+  cookie:
+    maxAgeMinutes: 480 # 8 hours = 8 * 60 minutes
+    secret: VLkPC7VjpuAk/GzvYqDgT5VJ8
+
+  mongodb:
+    enabled: false # Now connecting to MongoDB Atlas
+
+  services:
+    browserless:
+      apiToken: d79d40eb-cfd5-41a7-83f5-68b0f725880a
+      enabled: true
+      url: wss://chrome-eu-uk.browserless.io # ws://dropdeck-chrome:3000
+      dataDir: /tmp/dropdeck-cache
+    unsplash:
+      accessKey: 909c3b1e2791705c0208a7f4616aebe5625f4449763d1c3d47293b93b1278645
+      secretKey: e739ce3f12aba801389d20e96549951851a20d7f310fac766009bf98b9269411
+    brandfetch:
+      accessKey: VNyHYLiTPn6feMCNQrR2J7Ko5G4AUmyq5vPdBJG2
+    giphy:
+      accessKey: 0lmqv7AWPWtbfsxMfnuWcOkd3K5R9R91
+
+  helmet:
+    rateLimit:
+      max: 100 # max number of requests during a sliding window
+      window: 5 # rate limit window, in minutes
+
+  routes:
+    export: true # ENABLE the export API
+
+dropdeck-app:
+  image:
+    tag: dev # default image tag
+  analytics:
+    google:
+      trackingId: G-QQHSKG3F7L
+
+dropdeck-app-server:
+  log:
+    level: trace
+  api:
+    host: https://dev.dropdeck.com/api
+  app:
+    player:
+      host: https://dev.dropdeck.com/play
+      embed:
+        host: https://dev.dropdeck.com/play
+
+dropdeck-api:
+  image:
+    tag: dev # default image tag
+  log:
+    level: debug
+  cors:
+    allowedOrigins: '*,https://login.live.com,https://login.microsoftonline.com'
+  frontend:
+    host: https://dev.dropdeck.com
+    player:
+      host: https://dev.dropdeck.com/play
+  backend:
+    host: https://dev.dropdeck.com/api
+
+  storage:
+    cloud:
+      google:
+        enabled: true
+        decks:
+          bucketName: dropdeck-files_dev
+        branding:
+          bucketName: dropdeck-branding_dev
+    disk:
+      path: /data
+
+  auth:
+    allowed:
+      users: ^bjarki.holm@gmail.com$,^mr.olafsson@gmail.com$,^theobonhamcarter@gmail.com$
+      organizations: ^dropdeck.com$,^harvey-medical.com$
+    google:
+      clientId: 475661889060-g34p5k78pi5ehg45vo9e3ldpnb70e0ki.apps.googleusercontent.com
+      secret: DWfiIv73ayXB_Wyb9QcoKBlY
+    o365:
+      clientId: b3ab1206-c54c-4194-92a4-222c89b2074c
+      secret: Dy8PPo_H5-vZ512U1-_A9W715r-YB7nkNX
+
+  cookie:
+    maxAgeMinutes: 480 # 8 hours = 8 * 60 minutes
+    secret: VLkPC7VjpuAk/GzvYqDgT5VJ8
+
+  mongodb:
+    enabled: false # Now connecting to MongoDB Atlas
+
+  services:
+    # Uses the 'Dropdeck - QA' Unsplash account
+    unsplash:
+      accessKey: Y7CJ-usVg901j0FA_be2v45Rzq20xao1jI-KQiF4DbY
+      secretKey: fGNeAJ-VwSP0sZntpOn5E7EJxu7q-fQW-GizdpoAKgE
+    brandfetch:
+      accessKey: VNyHYLiTPn6feMCNQrR2J7Ko5G4AUmyq5vPdBJG2
+    giphy:
+      accessKey: 0lmqv7AWPWtbfsxMfnuWcOkd3K5R9R91
+    slack:
+      token: xoxb-840046536690-1615245960757-hDKgV1dMHL4LNUfKPy1AapzV
+      label: dev
+      # channel: \#support
+
+
+  helmet:
+    rateLimit:
+      max: 100 # max number of requests during a sliding window
+      window: 5 # rate limit window, in minutes
+
+  routes:
+    export: false # DISABLE the export API

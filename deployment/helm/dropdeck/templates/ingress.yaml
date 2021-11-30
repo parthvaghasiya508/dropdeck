@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "dropdeck.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    kubernetes.io/ingress.allow-http: "false" # if you want to block plain http
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+  #    kubernetes.io/ingress.global-static-ip-name: preview-static
+  labels:
+    app: {{ include "dropdeck.fullname" . }}
+
+spec:
+  rules:
+    - host: "{{ .Values.ingress.host }}"
+      http:
+        paths:
+          - path: /(.*)
+            backend:
+              serviceName: dropdeck-app
+              servicePort: 80
+          - path: /api/(.*)
+            backend:
+              serviceName: dropdeck-api
+              servicePort: 9000
+          - path: /api/export/(.*)
+            backend:
+              serviceName: dropdeck-export-api
+              servicePort: 9000
+          - path: /play/(.*)
+            backend:
+              serviceName: dropdeck-app-server
+              servicePort: 3000

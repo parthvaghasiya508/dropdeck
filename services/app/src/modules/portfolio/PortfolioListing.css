@@ -1,0 +1,64 @@
+.portfolioNav,
+.template {
+  margin-top:48px;
+}
+
+.portfolioNavList {
+  height: calc(70vh);
+  overflow:hidden;
+  overflow-y:scroll;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.portfolioNav ul {
+  margin: 0;
+  padding: 0;
+}
+
+.portfolioNav ul li {
+  list-style: none;
+  padding: 0;
+  margin: 0 2em 0 0;
+  font-size: 0.85em;
+  border-radius: 4px;
+}
+
+.portfolioNav ul li a,
+.portfolioNav button {
+  display: block;
+  text-decoration: none;
+  padding: 0.325em 1em;
+  color: #969697;
+  font-weight:500;
+  transition: all 0.15s ease-in;
+  text-transform:capitalize;
+}
+
+.portfolioNav ul li.active,
+.portfolioNav ul li:hover,
+.portfolioNav button.active,
+.portfolioNav button:hover {
+  background: rgba(0, 0, 0, 0.035);
+}
+
+.portfolioNav ul li.active a,
+.portfolioNav ul li:hover a,
+.portfolioNav button.active,
+.portfolioNav button:hover,
+.portfolioNav button span:hover {
+  color: #1a1a1a!important;
+}
+
+.portfolioNav button span:after {
+  content:"⌃";
+  display:inline-block;
+  transform: rotateZ(180deg);
+  margin:0 0 0 4px;
+  top:-2px;
+  position:relative;
+  line-height:0;
+}
+
+h3 {margin: 0 0 0.5em 0;}
+.portfolioNav h3 {margin-left: 0.5em;}

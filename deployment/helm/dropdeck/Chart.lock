@@ -1,0 +1,15 @@
+dependencies:
+- name: dropdeck-api
+  repository: file://../../../services/api/deployment/helm/dropdeck-api
+  version: 0.1.0
+- name: dropdeck-app
+  repository: file://../../../services/app/deployment/helm/dropdeck-app
+  version: 0.1.0
+- name: dropdeck-app-server
+  repository: file://../../../services/app/deployment/helm/dropdeck-app-server
+  version: 0.1.0
+- name: dropdeck-export-api
+  repository: file://../../../services/export-api/deployment/helm/dropdeck-export-api
+  version: 0.1.0
+digest: sha256:6fa9a8396e10ecc818d6963f0b7cd9d9028c5823bb81cd33daa5e9d9272012d6
+generated: "2020-12-22T23:03:38.861637Z"

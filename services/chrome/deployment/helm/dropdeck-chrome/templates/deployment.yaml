@@ -1,0 +1,79 @@
+#apiVersion: storage.k8s.io/v1
+#kind: StorageClass
+#allowVolumeExpansion: true
+#metadata:
+#  labels:
+#    addonmanager.kubernetes.io/mode: EnsureExists
+#    kubernetes.io/cluster-service: "true"
+#  name: gp2
+#parameters:
+#  type: pd-standard
+#provisioner: kubernetes.io/gce-pd
+#reclaimPolicy: Delete
+#volumeBindingMode: Immediate
+#
+#---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dropdeck-chrome.fullname" . }}
+  labels:
+    {{- include "dropdeck-chrome.labels" . | nindent 4 }}
+spec:
+#  serviceName: {{ include "dropdeck-chrome.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "dropdeck-chrome.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dropdeck-chrome.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "dropdeck-chrome.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+#          volumeMounts:
+#            - name: dropdeck-storage
+#              mountPath: /data
+
+           # TODO: Define reasonable liveness and readiness probes
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -1,0 +1,31 @@
+apiVersion: v2
+name: dropdeck-api
+description: A Helm chart to install the Dropdeck API service.
+type: application
+metadata:
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+dependencies:
+  - name: mongodb
+    # alias: dropdeck-db
+    version: 7.x
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    condition: mongodb.enabled
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+# appVersion: 1.16.0
+
+keywords:
+  - "dropdeck"
+  - "dropdeck/api"
+maintainers:
+  - name: "Bjarki Holm"
+    email: "bjarki@dropdeck.com"
+  - name: "Stefan Olafsson"
+    email: "stefan@dropdeck.com"
+  - name: "Theo Bonham Carter"
+    email: "theo@dropdeck.com"

@@ -1,0 +1,99 @@
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: #323234;
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  font-smoothing: grayscale;
+  font-size: 100%;
+  font-family: 'Inter var', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.018em;
+  font-weight: 400;
+  font-feature-settings: "ss01", /* open number digits */ "ss03", /* r curves into rounded neighbours */ "salt", /* alternates */ "cv10"; /* alt G with spur */
+  min-height: 100%; /* 100vh before mobile scrolling fix */
+  height: 100%;
+  min-height: -webkit-fill-available;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+}
+
+/* mobile scroll fix for editor */
+@media only screen and (max-width: 740px) {
+  #editor-outer {
+    position: fixed;
+    overflow: hidden;
+    height: 100%;
+  }
+  #editor-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* This styles mobile overflow BG - eg. when pulling down to refresh, but only if app is set to align with device OS light/dark settings */
+@media (prefers-color-scheme: dark) {
+  html {background-color: #1D1D1F;}
+  body > .appwrapper, body #editor-wrapper  { background:  #323234; }
+}
+
+@media (prefers-color-scheme: light) {
+  body > .appwrapper, body #editor-wrapper  { background:  linear-gradient(90deg, #eaeaec -45%, #FFFFFF 50%); }
+}
+
+@supports (font-variation-settings: normal) {
+  body {font-family: 'Inter var', "Helvetica Neue", Helvetica, Arial, sans-serif}
+  code { font-family: 'Fira Code VF', monospace; }
+}
+
+code, pre {
+  text-rendering: optimizeLegibility;
+  display: block;
+  font-family: "Fira Code","SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-feature-settings: "calt" 1;
+  font-variant-ligatures: contextual;
+  -webkit-font-variant-ligatures: contextual;
+}
+
+.keyboard {
+  font-family: 'Inter var', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.7em;
+  border: 1px solid;
+  border-radius: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 1px 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+[tabindex="0"], *:focus {
+  outline: none;
+}
+
+/* Overwrite padding on text toolbar / theme picker flyouts in production */
+#split-button-menu.MuiList-padding,
+#simple-menu .MuiPopover-paper .MuiList-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.img-drop-target.hover {
+  width: 100% !important;
+  height: 100% !important;
+  border: 2px dashed #0000ff !important;
+  box-sizing: border-box !important;
+}

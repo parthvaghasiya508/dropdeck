@@ -1,0 +1,206 @@
+#apiVersion: storage.k8s.io/v1
+#kind: StorageClass
+#allowVolumeExpansion: true
+#metadata:
+#  labels:
+#    addonmanager.kubernetes.io/mode: EnsureExists
+#    kubernetes.io/cluster-service: "true"
+#  name: gp2
+#parameters:
+#  type: pd-standard
+#provisioner: kubernetes.io/gce-pd
+#reclaimPolicy: Delete
+#volumeBindingMode: Immediate
+#
+#---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dropdeck-export-api.fullname" . }}
+  labels:
+    {{- include "dropdeck-export-api.labels" . | nindent 4 }}
+spec:
+#  serviceName: {{ include "dropdeck-export-api.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "dropdeck-export-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dropdeck-export-api.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: dropdeck-svc-key
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "dropdeck-export-api.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+
+          # Mount the google-cloud-key JSON key for the service account we want to use for this service.
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+
+           # TODO: Define reasonable liveness and readiness probes
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+
+            # Credentials for GCE service account
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/dropdeck-svc-key.json
+
+              # Generic settings
+            - name: LOG_LEVEL
+              value: "{{ .Values.log.level }}"
+
+              # Express settings
+            - name: ALLOWED_ORIGINS
+              value: "{{ .Values.cors.allowedOrigins }}"
+
+            # Google Cloud Storage
+            - name: GCLOUD_BUCKET_DECKS
+              value: "{{ .Values.storage.cloud.google.decks.bucketName }}"
+            - name: GCLOUD_BUCKET_BRANDING
+              value: "{{ .Values.storage.cloud.google.branding.bucketName }}"
+            - name: GCLOUD_STORAGE_ENABLED
+              value: "{{ .Values.storage.cloud.google.enabled }}"
+
+              # API settings
+            - name: FRONTEND_HOST
+              value: "{{ .Values.frontend.host }}"
+            - name: FRONTEND_API_HOST
+              value: "{{ .Values.backend.host }}"
+            - name: CONTENT_STORE
+              value: "{{ .Values.storage.disk.path }}"
+
+              # Google authentication
+            - name: GOOGLE_AUTH
+              value: "{{ .Values.auth.google.page }}"
+            - name: GOOGLE_AUTH_CALLBACK_PAGE
+              value: "{{ .Values.auth.google.callbackPage }}"
+            - name: GOOGLE_AUTH_CLIENT_ID
+              value: "{{ .Values.auth.google.clientId }}"
+            - name: GOOGLE_AUTH_SECRET
+              value: "{{ .Values.auth.google.secret }}"
+            - name: GOOGLE_AUTH_FAILED_PAGE
+              value: "{{ .Values.auth.failedPage }}"
+
+              # Office 365 authentication
+            - name: OFFICE365_AUTH
+              value: "{{ .Values.auth.o365.page }}"
+            - name: OFFICE365_AUTH_FAILED_PAGE
+              value: "{{ .Values.auth.failedPage }}"
+            - name: OFFICE365_AUTH_CALLBACK_PAGE
+              value: "{{ .Values.auth.o365.callbackPage }}"
+            - name: OFFICE365_AUTH_CLIENT_ID
+              value: "{{ .Values.auth.o365.clientId }}"
+            - name: OFFICE365_AUTH_SECRET
+              value: "{{ .Values.auth.o365.secret }}"
+
+              #
+              # MongoDB settings for Atlas
+              # These are all stored in a Kubernetes secret named 'mongodb-atlas-secret'
+              #
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas-secret
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas-secret
+                  key: password
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas-secret
+                  key: host
+            - name: DATABASE_INITDB
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas-secret
+                  key: initdb
+
+              # App-API integration
+            - name: FRONTEND_EXPORT_HOST
+              value: "{{ .Values.frontend.export.host }}"
+            - name: FRONTEND_PLAYER_HOST
+              value: "{{ .Values.frontend.player.host }}"
+            - name: FRONTEND_EXPORT_PATH
+              value: "{{ .Values.frontend.export.path }}"
+            - name: FRONTEND_AUTH_PREFIX
+              value: "{{ .Values.frontend.authPrefix }}"
+            - name: FRONTEND_SIGN_UP_MODULE
+              value: "{{ .Values.frontend.signUpPath }}"
+            - name: FRONTEND_HOME
+              value: "{{ .Values.frontend.homePath }}"
+
+            # Browserless
+            - name: BROWSERLESS_API_TOKEN
+              value: "{{ .Values.services.browserless.apiToken }}"
+            - name: BROWSERLESS_ENABLED
+              value: "{{ .Values.services.browserless.enabled }}"
+            - name: BROWSERLESS_DATA_DIR
+              value: "{{ .Values.services.browserless.dataDir }}"
+            - name: BROWSERLESS_URL
+              value: "{{ .Values.services.browserless.url }}"
+
+            # Helmet
+            - name: HELMET_RATE_LIMIT_WINDOW_MINS
+              value: "{{ .Values.helmet.rateLimit.window }}"
+            - name: HELMET_RATE_LIMIT_MAX
+              value: "{{ .Values.helmet.rateLimit.max }}"
+
+            # Route settings
+            - name: ROUTES_EXPORT_ENABLED
+              value: "{{ .Values.routes.export }}"
+
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: dropdeck-storage
+#      spec:
+#        accessModes: [ "ReadWriteOnce" ]
+#        storageClassName: "gp2"
+#        resources:
+#          requests:
+#            storage: 1Gi
+
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

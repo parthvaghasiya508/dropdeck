@@ -1,0 +1,26 @@
+apiVersion: v2
+name: dropdeck-app
+description: A Helm chart to install the Dropdeck app (UI) service.
+type: application
+metadata:
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+dependencies:
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+# appVersion: 1.16.0
+
+keywords:
+  - "dropdeck"
+  - "dropdeck/app"
+maintainers:
+  - name: "Bjarki Holm"
+    email: "bjarki@dropdeck.com"
+  - name: "Stefan Olafsson"
+    email: "stefan@dropdeck.com"
+  - name: "Theo Bonham Carter"
+    email: "theo@dropdeck.com"

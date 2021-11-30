@@ -1,0 +1,31 @@
+#
+# Redirect deck.show/(.*) to app.dropdeck.com/play/$1
+#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deck-show-gateway
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    kubernetes.io/ingress.allow-http: "false" # if you want to block plain http
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_uri ~* "^\/([a-zA-Z0-9]+)(\?.*)?$") {
+        return 301 https://app.dropdeck.com/play$request_uri;
+      }
+      if ($request_uri ~* "^\/([a-zA-Z0-9]+)/embed$") {
+        return 301 https://app.dropdeck.com/play$request_uri;
+      }
+      return 301 https://www.dropdeck.com;
+
+spec:
+  rules:
+    - host: "deck.show"
+      http:
+        paths:
+          - path: /(.*) # dummy route - the redirect will kick in
+            backend:
+              serviceName: dropdeck-app
+              servicePort: 80

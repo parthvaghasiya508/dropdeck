@@ -1,0 +1,47 @@
+apiVersion: v2
+name: dropdeck-gateway
+description: A Helm chart to install Dropdeck.
+metadata:
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+dependencies:
+  - name: dropdeck-api
+    version: 0.1.0
+    repository: file://../../../services/api/deployment/helm/dropdeck-api
+  - name: dropdeck-app
+    version: 0.1.0
+    repository: file://../../../services/app/deployment/helm/dropdeck-app
+  - name: dropdeck-app-server
+    version: 0.1.0
+    repository: file://../../../services/app/deployment/helm/dropdeck-app-server
+  - name: dropdeck-export-api
+    version: 0.1.0
+    repository: file://../../../services/export-api/deployment/helm/dropdeck-export-api
+#  - name: dropdeck-export-app
+#    version: 0.1.0
+#    repository: file://../../../services/export-app/deployment/helm/dropdeck-export-app
+
+#
+# Optional: Standalone Chrome service. Requires a commercial license from Browserless.io
+#
+#  - name: dropdeck-chrome
+#    version: 0.1.0
+#    repository: file://../../../services/chrome/deployment/helm/dropdeck-chrome
+
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+# appVersion: 1.16.0
+
+keywords:
+  - "dropdeck"
+maintainers:
+  - name: "Bjarki Holm"
+    email: "bjarki@dropdeck.com"
+  - name: "Stefan Olafsson"
+    email: "stefan@dropdeck.com"
+  - name: "Theo Bonham Carter"
+    email: "theo@dropdeck.com"

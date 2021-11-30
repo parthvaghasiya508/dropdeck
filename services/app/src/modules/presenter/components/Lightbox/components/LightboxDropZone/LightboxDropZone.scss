@@ -1,0 +1,40 @@
+.selectwidget-left {
+    transition: all 0.25s ease-in-out;
+    transform: translate(-80px, 0); // 80
+}
+
+.selectwidget-right {
+    transition: all 0.25s ease-in-out;
+    transform: translate(80px, 0); // 80
+}
+.selectwidget-last {
+    transition: all 0.25s ease-in-out;
+}
+
+.selectwidget-left-2x {
+    transition: all 0.25s ease-in-out;
+    transform: translate(-160px, 0); // 160
+}
+
+.selectwidget-right-2x {
+    transition: all 0.25s ease-in-out;
+    transform: translate(160px, 0);
+}
+
+.selectwidget.left + div {
+    // margin-left: -160px !important;
+}
+
+.selectwidget.left + div + div {
+    // margin-left: -160px !important;
+}
+
+.selectwidget.left {
+    // margin-left: 1px !important;
+}
+
+.last-position {
+   
+}
+
+

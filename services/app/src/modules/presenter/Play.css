@@ -1,0 +1,35 @@
+/* Chrome, Safari and Opera syntax */
+:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+}
+
+/* Firefox syntax */
+:-moz-full-screen {
+    width: 100%;
+    height: 100%;
+}
+
+/* IE/Edge syntax */
+:-ms-fullscreen {
+    width: 100%;
+    height: 100%;
+}
+
+/* Standard syntax */
+:fullscreen {
+    width: 100%;
+    height: 100%;
+}
+
+#player > div, #player > div > div, #player > div > div > div, .swiper-container {
+  height: 100% !important;
+}
+
+div.swiper-container {
+  height: 100% !important;
+}
+
+.swiper-wrapper {
+  height: 100% !important;
+}

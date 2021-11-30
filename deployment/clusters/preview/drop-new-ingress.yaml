@@ -1,0 +1,25 @@
+#
+# Redirect drop.new/ to app.dropdeck.com/new
+#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: drop-new-gateway
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    kubernetes.io/ingress.allow-http: "false" # if you want to block plain http
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      return 301 https://app.dropdeck.com/new;
+
+spec:
+  rules:
+    - host: "drop.new"
+      http:
+        paths:
+          - path: /(.*) # dummy route - the redirect will kick in
+            backend:
+              serviceName: dropdeck-app
+              servicePort: 80

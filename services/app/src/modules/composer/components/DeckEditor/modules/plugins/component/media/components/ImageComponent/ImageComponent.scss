@@ -1,0 +1,25 @@
+.image-component {
+  height: 100% !important;
+  width: 100% !important;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.image-component-element {
+  height: 100% !important;
+  width: auto  !important;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+
+  > .imgWrap {
+    > img {
+      height: 100% !important;
+      width: 100% !important;
+     }
+  }
+}

@@ -1,0 +1,161 @@
+import { makeStyles } from "@material-ui/styles";
+
+export const templateGridStyles = () => makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "absolute",
+    padding: "1rem 1rem 0 1rem",
+    top: "calc(7rem + 4px)",
+    height: "calc(100% - 8rem - 4px)",
+    [theme.breakpoints.down('xs')]: {
+      padding: "0.4rem 0.4rem 0 0.4rem",
+      top: "calc(6rem + 2px)",
+      height: "calc(100% - 5rem)",
+    },
+    overflow: "hidden",
+    boxSizing: "border-box",
+    width: "100%",
+    '&:before': {
+      content: '""',
+      width: '100%',
+      height: '1rem',
+      zIndex: 5,
+      left: 0,
+      right: 0,
+      top: 0,
+      position: 'absolute',
+      background: theme.dark() ? theme.palette.background.main : `linear-gradient(90deg, ${theme.palette.background.elev02} -45%, #FFFFFF 50%)`,
+    },
+  },
+  attribution: {
+    textAlign: 'center',
+    padding: '0.75rem 1rem 0 1rem',
+    boxSizing: 'border-box',
+    width: '100%',
+    fontSize: '0.6rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: theme.dark() ? theme.palette.background.main : `linear-gradient(90deg, ${theme.palette.background.elev02} -45%, #FFFFFF 50%)`,
+    color: theme.palette.text.secondary,
+    position: 'relative',
+    zIndex: 1,
+    '& .unsplash': {
+      transition: "all 300ms ease",
+      height: '12px',
+      margin: '1px 0 0 7px',
+      opacity: '0.8',
+      '&:hover': {
+        opacity: '1',
+      },
+    },
+  },
+  outer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+    padding: "1rem",
+    backgroundColor: theme.palette.background.elev01,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme.palette.background.border00,
+    borderBottomColor: theme.palette.background.border01,
+    boxShadow: `rgba(0, 0, 0, ${theme.dark() ? 0.5 : 0.2}) 0px 6px 13px -8px, rgba(0, 0, 0, ${theme.dark() ? 0.85 : 0.2}) 0px 4px 8px -8px, rgba(0, 0, 0, 0.02) 0px -3px 8px -6px`,
+    borderRadius: 6,
+    overflow: "hidden",
+    boxSizing: "border-box",
+    position: 'relative',
+    zIndex: 10,
+  },
+  inputLabel: {
+    color: theme.palette.text.secondary,
+    whiteSpace: "nowrap",
+    fontSize: '16px',
+    marginRight: 10,
+  },
+  input: {
+    width: "100%",
+    margin: "5px 0",
+    padding: theme.dark() ? '7px 12px' : '6px 12px',
+    fontSize: '16px',
+    fontWeight: theme.dark() ? '500' : '600',
+    letterSpacing: theme.dark() ? '0' : '-0.018em',
+    color: theme.palette.input.secondary,
+    background: theme.palette.gradient.stop02,
+    border: `1px solid ${theme.palette.background.border01} !important`,
+    borderRadius: '4px',
+    boxShadow: `0 0 0 3px ${theme.palette.background.border02}`,
+    transition: "all 300ms ease",
+    '&:focus': {
+      borderBottom: `1px solid ${theme.palette.primary.main} !important`,
+    },
+  },
+
+  // Image grid
+  templateGridInner: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    overflow: 'hidden',
+    paddingRight: '0.25rem',
+    textAlign: 'center',
+    width: '100%',
+    scrollBehavior: 'smooth',
+  },
+  templateGridItems: {
+    marginTop: 10,
+    flex: 1,
+    position: 'relative',
+  },
+  templateGridItemContainer: {
+    width: '100%',
+    cursor: 'pointer',
+    position: 'relative',
+  },
+  templateGridItem: {
+    border: `1px solid ${theme.palette.background.border00}`,
+    borderRadius: 4,
+    overflow: "hidden",
+  },
+  templateName: {
+    display: "inline-block",
+    marginTop: 5,
+    marginBottom: 5,
+    fontSize: 13,
+    color: theme.palette.text.secondary,
+  },
+
+  // Meta data and helpers
+  helper: {
+    padding: '12px 0 18px 0',
+    textAlign: "center",
+    fontSize: "0.8em",
+    color: theme.palette.text.secondary,
+  },
+  error: {
+    color: theme.palette.primary.main
+  },
+  insertSpinner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%'
+  },
+  loadMoreSpinner: {
+    margin: '1rem 0',
+  },
+  noResults: {
+    color: '#ffae42',
+    flex: 1,
+    padding: '0.25rem',
+  }
+}));

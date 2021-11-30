@@ -1,0 +1,12 @@
+.page {
+  page-break-after: always;
+  page-break-before: always;
+}
+
+.container {
+  text-shadow: none !important;
+}
+
+body {
+  overflow: visible;
+}

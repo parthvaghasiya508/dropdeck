@@ -1,0 +1,66 @@
+.react-transform-component {
+  width: 100% !important;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.react-transform-element {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0% 0%;
+
+  > .imgWrap {
+    > img.has-transform {
+      box-shadow: 0 0 0 0.125em #ededef;
+      border-radius: 0 !important;
+    }
+  }
+}
+
+// Landscape Only
+.landscape {
+  .react-transform-component {
+    height: 100% !important;
+  }
+
+  .react-transform-element {
+    height: 100% !important;
+    width: auto !important;
+
+    > .imgWrap {
+      > img.has-transform {
+        height: auto !important;
+        width: auto !important;
+      }
+    }
+  }
+}
+
+// Portrait Only
+.portrait {
+  .react-transform-component {
+    height: fit-content !important;
+    min-height: 100% !important;
+  }
+
+  .react-transform-element {
+    height: fit-content !important;
+    min-height: 100% !important;
+    min-width: 100% !important;
+    width: fit-content !important;
+
+    > .imgWrap {
+      > img.has-transform {
+        height: 100% !important;
+        width: 100% !important;
+        position: relative !important;
+      }
+    }
+  }
+}
+

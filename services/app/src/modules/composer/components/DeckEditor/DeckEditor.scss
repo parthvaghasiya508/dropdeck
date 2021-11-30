@@ -1,0 +1,51 @@
+[data-slate-inline="true"] {
+  display: inline-block;
+}
+
+// Pulse and resize icon animation
+@keyframes pulse-out {
+	0% {
+		transform: scale(0.95);
+	}
+	70% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(0.95);
+    	background: 'transparent !important',
+	}
+}
+
+
+// Pulse Element in Editor Dark Mode
+@keyframes pulse-bg {
+	0% {
+    	background-color: rgba(255, 82, 82, 0);
+	}
+	30% {
+    	background-color: rgba(255, 82, 82, 0.12);
+	}
+	50% {
+    	background-color: rgba(255, 82, 82, 0.12);
+	}
+	100% {
+    	background-color: rgba(255, 82, 82, 0);
+	}
+}
+
+// Pulse Element in Editor Light Mode
+@keyframes pulse-bg-lm {
+	0% {
+    	background-color: rgba(255, 82, 82, 0);
+	}
+	30% {
+    	background-color: rgba(255, 82, 82, 0.1);
+	}
+	50% {
+    	background-color: rgba(255, 82, 82, 0.1);
+	}
+	100% {
+    	background-color: rgba(255, 82, 82, 0);
+	}
+}
+

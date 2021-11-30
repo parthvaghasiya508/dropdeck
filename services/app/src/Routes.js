@@ -1,0 +1,15 @@
+export const ROUTE_START = "/start";
+export const ROUTE_ERROR = "/error";
+export const ROUTE_NOT_FOUND = "/not-found";
+export const ROUTE_NEW_DECK = "/new";
+export const ROUTE_EDIT_DECK = "/edit";
+export const ROUTE_PLAY_DECK = "/play";
+export const ROUTE_PREVIEW_DECK = "/preview";
+export const ROUTE_PLAY_DECK_EXPORT = "/export/play";
+export const ROUTE_PLAY_DOCS = "/docs/play";
+export const ROUTE_EDIT_DOCS = "/docs/edit";
+export const ROUTE_ROOT = "/";
+export const ROUTE_HOME = "/home";
+export const ROUTE_MEDIA = "/media";
+export const ROUTE_AUTH_FAILED = "/auth/failed";
+export const ROUTE_AUTH_EXPIRED = "/auth/expired";

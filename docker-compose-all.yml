@@ -1,0 +1,58 @@
+version: "2"
+services:
+
+    export-app:
+        container_name: export-app
+        image: export-app:latest
+        restart: always
+        env_file: .env.export
+        ports:
+            - "80:80"
+        links:
+            - export-api
+        networks:
+            - dropdeck-network
+
+    export-api:
+      container_name: export-api
+      image: export-api:latest
+      restart: always
+      env_file: .env.export
+      ports:
+        - "9000:9000"
+      networks:
+        - dropdeck-network
+
+    api:
+        container_name: dropdeck-api
+        build:
+            context: .
+            dockerfile: services/api/deployment/docker/dev/Dockerfile
+        image: dropdeck-api:dev
+        restart: always
+        env_file: .env.development
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./services/api/src:/usr/src/dropdeck/services/api/src
+#            - /node_modules
+#            - $GOOGLE_APPLICATION_CREDENTIALS:/tmp/keys/gcp-credentials.json:ro
+        depends_on:
+            - db
+        networks:
+            - dropdeck-network
+    db:
+        container_name: dropdeck-db
+        image: mongo
+        restart: unless-stopped
+        env_file: .env.development
+        volumes:
+            - ./services/api/deployment/helm/dropdeck-api/charts/mongodb/files/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+            - ./data:/data/db
+        ports:
+            - 27017:27017
+        networks:
+            - dropdeck-network
+networks:
+    dropdeck-network:
+        driver: bridge
